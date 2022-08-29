@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongoDB://localhost:27017/socialNetworkDb',{
+mongoose.connect('mongodb+srv://ashachakre:RbqVQGktxcO6Dx9w@cluster0.hi5w3x1.mongodb.net/?retryWrites=true&w=majority',{
     useNewUrlParser: true,
     userUnifiedTopology: true,
 })
