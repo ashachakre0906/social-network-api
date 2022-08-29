@@ -1,7 +1,7 @@
 //Required schema and model from mongoose
 const {Schema, model} = require('mongoose');
 //Construct a new instance of the schema class
-const userSchema = new Schema (
+const usersSchema = new Schema (
 {
     username:{
         type: String,
@@ -13,6 +13,7 @@ const userSchema = new Schema (
         type: String,
         Required: [true, 'Please provide your email'],
         unique: true,
+        lowercase: true,
         required: [true, 'Email address is required'],
         validate: [validateEmail,'Please fill a valid email address'],
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
@@ -37,9 +38,10 @@ const userSchema = new Schema (
     }
 );
 //Created a virtual called friendCount that retrieves length of the user's friends array field on query
-userSchema.virtual('friendCount').get(function(){
+usersSchema.virtual('friendCount').get(function(){
     return this.friends.length;
 
-})
-const User = model ('user',userSchema);
+});
+//Created a Users model using the Users Schema and Initialize our User model
+const User = model ('user',usersSchema);
 module.exports = User;
