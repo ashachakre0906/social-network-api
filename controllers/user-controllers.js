@@ -59,7 +59,7 @@ const userController = {
         .then((userData) => 
             !userData
             ? res.staus(404).json({ message: 'No user with this ID'})
-            : res.json(user)
+            : res.json(userData)
         )
         .catch(err => res.status(500).json(err));
     },
