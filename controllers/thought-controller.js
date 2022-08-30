@@ -1,9 +1,8 @@
-const { User, Model, Thought } = require("../models");
-const Thoughts = require("../models/Thought");
+const { User, Thought } = require("../models");
 const thoughtController = {
   //Get All available thoughts
   getAllThoughts(req, res) {
-    Thoughts.find({})
+    Thought.find({})
       .populate({ path: "reactions", select: "-__v" })
       .select("-__v")
       .then((thoughtsData) => res.json(thoughtsData))
@@ -14,10 +13,10 @@ const thoughtController = {
   },
   //POST Create a thought
   createThought({ params, body }, res) {
-    Thoughts.create(body)
+    Thought.create(body)
       .then(({ _id }) => {
         return User.findOneAndUpdate(
-          { _id: params.userId },
+          { username: params.username },
           { $push: { thoughts: _id } },
           { new: true }
         );
@@ -33,8 +32,8 @@ const thoughtController = {
   },
   //GET single thought by its Id
   getThoughtById({ params }, res) {
-    Thoughts.findOne({ _id: params.id })
-      .populate({ path: "reactions", select: "-__v" })
+    Thought.findOne({ _id: params.id }) //check with TA about id
+      .populate({ path: "reactions", select: "-__v" }) //What should be the path?
       .select("-__v")
       .then((thoughtData) => {
         if (!thoughtData) {
@@ -51,31 +50,50 @@ const thoughtController = {
 
   //PUT update a thought
   updateThought(req, res) {
-    Thoughts.findOneAndUpdate(
-        {_id: req.params._id},
-        {$set: req.body},
-        {new: true, runValidators: true})
-        .populate({ path: 'reactions', select: '-__v'})
-        .select('-__v')
-        .then((thoughtData) => {
-            if(!thoughtData){
-                res.status(404).json({ message: 'Thought id is not valid'});
-                return;
-
-            }
-            res.json(thoughtData);
-        })
-    .catch(err => res.json(err));
-
+    Thought.findOneAndUpdate(
+      { _id: req.params.id }, //which id it should be ?
+      { $set: req.body },
+      { new: true, runValidators: true }
+    )
+      .populate({ path: "reactions", select: "-__v" })
+      .select("-__v")
+      .then((thoughtData) => {
+        if (!thoughtData) {
+          res.status(404).json({ message: "Thought id is not valid" });
+          return;
+        }
+        res.json(thoughtData);
+      })
+      .catch((err) => res.json(err));
   },
 
   //DELETE a thought by Id
   deleteThought(req, res) {
-
+    Thought.findOneAndDelete({ _id: req.params.id })
+      .then((thoughtData) => {
+        if (!thoughtData) {
+          res.status(404).json({ message: "Thought id is not valid" });
+          return;
+        }
+        res.json(thoughtData);
+      })
+      .catch((err) => res.json(err));
   },
   //POST Create a reaction
   addReaction(req, res) {
-
+    Thought.findOneAndUpdate(
+      { _id: req.params.id },
+      { $addToSet: { reactions: req.body } }, //Check if this right,can we use push operator?
+      { new: true, runValidators: true }
+    )
+    .then((thoughtData) => 
+       !thoughtData
+        ? res
+          .status(404)
+          .json({ message: "No thought with that id"})
+        :res.json(thoughtData,'New reaction is created🎉')
+    )
+    .catch((err) => res.status(500).json(err));
   },
 
   //DELETE  a reaction
@@ -89,8 +107,8 @@ const thoughtController = {
         !thoughtData
           ? res
               .status(404)
-              .json({ message: "No student found with that ID :(" })
-          : res.json(thoughtData)
+              .json({ message: "No thoughts found with that ID :(" })
+          : res.json(thoughtData,'Recation is  successfully removed')
       )
       .catch((err) => res.status(500).json(err));
   },
