@@ -24,7 +24,7 @@ const thoughtController = {
 
     },
      //POST Create a reaction
-     createReaction(req , res){
+     addReaction(req , res){
 
      },
 
