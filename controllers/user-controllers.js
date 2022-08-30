@@ -2,7 +2,7 @@ const {User} = require('../models');
 const Thoughts = require('../models/Thought');
 
 //Setting up User controller
-
+//creating a new user
 const userController = {
 
     //Creating a new user
