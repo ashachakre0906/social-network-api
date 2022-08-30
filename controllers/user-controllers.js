@@ -56,8 +56,8 @@ const userController = {
         {$set: req.body},
         {new: true ,runValidators: true},
         )
-        .then((user) => 
-            !user
+        .then((userData) => 
+            !userData
             ? res.staus(404).json({ message: 'No user with this ID'})
             : res.json(user)
         )
@@ -67,10 +67,10 @@ const userController = {
     //Delete a User
     deleteUser(req , res){
         User.findOneAndDelete({_id: req.params.userId})
-        .then((user) => 
-            !user
+        .then((userData) => 
+            !userData
             ? res.status(404).json({ message: 'No user with that ID'})
-            : res.json(user)
+            : res.json(userData)
 
         )
         .catch((err) => res.status(500).json(err));
@@ -80,34 +80,42 @@ const userController = {
      //Deletes user's associated thoughts when the user is deleted
     deleteUserAssociatedThoughts(req , res){
         User.findOneAndDelete({_id: req.params.userId})
-        .then((user) =>
-        !user
+        .then((userData) =>
+        !userData
         ? res.status(404).json({ message: 'No user with that ID'})
-        : Thoughts.deleteMany({ _id: { $in: user.thoughts}})
+        : Thoughts.deleteMany({ _id: { $in: userData.thoughts}})
         )
 
-     }
+     },
 
     // Post route to Add a friend
+    addAFriend(req , res){
+        User.findOneAndUpdate(
+            { _id: req.params.friendId },
+            { $addToSet: { responses: req.body}},
+            { runValidators: true, new: true},
+        )
+        .then((userData) => 
+        !userData
+        ? res.status(404).json({ message: 'No user with that Id'})
+        : res.json(userData)
 
+        )
+        .catch((err) => res.status(500).json(err))
+
+    },
 
     // Delete a friend
+    removeFriend(req, res){
+        User.findOneAndDelete(
+            { _id: req.params.userId},
+            { $pull: {friends: { friendId: req.params.friendId} } },
+            { runValidators: true, new: true},
+        )
+        .then((userData) => res.json(userData))
+        .catch(err => res.json(err));
 
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 }
-
+module.exports = userController;
