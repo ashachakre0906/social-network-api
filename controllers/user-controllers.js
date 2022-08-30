@@ -89,7 +89,7 @@ const userController = {
      },
 
     // Post route to Add a friend
-    addAFriend(req , res){
+    addFriend(req , res){
         User.findOneAndUpdate(
             { _id: req.params.friendId },
             { $addToSet: { responses: req.body}},
