@@ -6,32 +6,30 @@ const usersSchema = new Schema (
     username:{
         type: String,
         unique: true,
-        required: [true, 'Please provide your username!'],
+        required: 'Please provide your username!',
         trim: true,
     },
     email: {
         type: String,
-        Required: [true, 'Please provide your email'],
+        required: 'Please provide your email',
         unique: true,
-        lowercase: true,
-        required: [true, 'Email address is required'],
-        validate: [validateEmail,'Please fill a valid email address'],
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
+        // lowercase: true,
+        match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
 
     },
-    thoughts: {
+    thoughts: [{
         type: Schema.Types.ObjectId,
         ref: 'Thought',
-
-    },
-    friends: {
+    }],
+    friends: [{
         type: Schema.Types.ObjectId,
         ref: 'User',
-    },
+    }],
     },  
     {
         toJSON: {
             getters: true,
+            virtuals: true,
 
         },
         id: false,
@@ -43,5 +41,5 @@ usersSchema.virtual('friendCount').get(function(){
 
 });
 //Created a Users model using the Users Schema and Initialize our User model
-const User = model ('user',usersSchema);
+const User = model ('User',usersSchema);
 module.exports = User;

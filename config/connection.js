@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://ashachakre:RbqVQGktxcO6Dx9w@cluster0.hi5w3x1.mongodb.net/?retryWrites=true&w=majority',{
+mongoose.connect(process.env.mongodbURI ||'mongodb://localhost/social-network-db',{
     useNewUrlParser: true,
-    userUnifiedTopology: true,
+    useUnifiedTopology: true,
 })
 module.exports = mongoose.connection;

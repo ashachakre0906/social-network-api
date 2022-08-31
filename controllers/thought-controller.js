@@ -52,7 +52,7 @@ const thoughtController = {
   updateThought(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.id }, //which id it should be ?
-      { $set: req.body },
+      { $push: req.body },
       { new: true, runValidators: true }
     )
       .populate({ path: "reactions", select: "-__v" })
@@ -83,7 +83,7 @@ const thoughtController = {
   addReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.id },
-      { $addToSet: { reactions: req.body } }, //Check if this right,can we use push operator?
+      { $push: { reactions: req.body } }, //Check if this right,can we use push operator?
       { new: true, runValidators: true }
     )
     .then((thoughtData) => 
