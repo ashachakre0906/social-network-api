@@ -82,7 +82,7 @@ const userController = {
         .then((userData) =>
         !userData
         ? res.status(404).json({ message: 'No user with that ID'})
-        : Thoughts.deleteMany({ _id: { $in: userData.thoughts}})
+        : Thought.deleteMany({ _id: { $in: userData.thoughts}})
         )
 
      },
@@ -106,7 +106,7 @@ const userController = {
 
     // Delete a friend
     removeFriend(req, res){
-        User.findOneAndDelete(
+        User.findOneAndUpdate(
             { _id: req.params.id},
             { $pull: {friends:req.params.friendId } },
             { runValidators: true, new: true},

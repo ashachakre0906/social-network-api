@@ -30,3 +30,16 @@ router.route('/:thoughtId/reactions/:reactionId')
       .delete(removeReaction);
       
 module.exports = router;
+
+// THOUGHTS ROUTES:
+
+// GET all thoughts: /api/thoughts
+// GET thought by ID: /api/thoughts/:id
+// POST (create) a thought: /api/thoughts>>pass thoughtText and username
+// PUT (update) thought by ID: /api/thoughts/:id
+// DELETE thought by ID: api/thoughts/:id
+
+// REACTIONS ROUTES:
+
+// POST (create) a single reaction to thought by ID: /api/thoughts/:thoughtId/reactions
+// DELETE a reaction by ID from thought by ID: /api/thoughts/:thoughtId/reactions/:reactionId

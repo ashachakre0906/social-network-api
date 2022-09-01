@@ -29,3 +29,16 @@ router.route('/:id/friends/:friendId')
       .delete(removeFriend)
 
 module.exports = router;
+
+// USER ROUTES:
+
+// GET all users: /api/users
+// GET user by ID: /api/users/:id
+// POST (create) an user: /api/users
+// PUT (update) user by ID: /api/users/:id
+// DELETE user by ID: /api/users/:id
+
+// FRIENDS ROUTES:
+
+// POST (create) a friend by ID: /api/users/:userId/friends/:friendId
+// DELETE a friend by ID: /api/users/:userId/friends/:friendId
