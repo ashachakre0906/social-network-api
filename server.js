@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const db = require ('./config/connection');
 const routes = require('./routes');
@@ -10,6 +11,9 @@ app.use(express.urlencoded({ extended : true}));
 app.use(express.static('public'));
 
 app.use(routes);
+
+//Use this to log mongo queries being executed.
+mongoose.set('debug', true);
 
 db.once('open',() => {
     app.listen(PORT,() => {

@@ -1,9 +1,41 @@
-const {Schema, model} = require ('mongoose');
-const reactionsSchema = require('./Reaction');
+const {Schema, model, Types} = require ('mongoose');
 const moment = require('moment');
+
+//reaction's schema
+const ReactionsSchema = new Schema (
+    {
+        reactionId: {
+            type: Schema.Types.ObjectId,
+            default: () => new Types.ObjectId(),
+
+        },
+        reactionBody: {
+            type: String,
+            required: true,
+            maxlength: 280,
+        },
+        username: {
+            type: String,
+            required: true,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+            get: (formatDate) => moment(formatDate).format('MMM DD, YYYY [at] hh:mm a'),
+
+        },
+
+}, {
+     toJSON: {
+        getters: true,
+
+     },
+},
+   
+);
 // Schema to create Thought model
 
-const thoughtsSchema = new Schema(
+const ThoughtsSchema = new Schema(
 {
     thoughtText: {
         type: String,
@@ -20,7 +52,7 @@ const thoughtsSchema = new Schema(
         type: String,
         required: true,
     },
-    reactions: [reactionsSchema],
+    reactions: [ReactionsSchema],
 },
     {
         toJSON: {
@@ -33,12 +65,12 @@ const thoughtsSchema = new Schema(
 );
 //Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
 
-thoughtsSchema.virtual('reactionCount').get(function(){
+ThoughtsSchema.virtual('reactionCount').get(function(){
     return this.reactions.length;
 
 });
 // create the Thoughts model using the Thoughts Schema
-const Thoughts = model('Thought',thoughtsSchema );
+const Thoughts = model('Thought',ThoughtsSchema );
 //Exporting Thoughts module
 module.exports = Thoughts;
 
