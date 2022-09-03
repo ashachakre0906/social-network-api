@@ -32,6 +32,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 - [Application Demo](#application-demo)
 - [Code Examples](#code-examples)
 - [Technologies Used](#technologies-used)
+- [Credits](#credits)
 - [Questions](#questions)
 
 
@@ -126,6 +127,8 @@ createThought(req, res) {
 ![MongoDB Badge](https://img.shields.io/badge/database-Mongo-green.svg)
 ![Moment Badge](https://img.shields.io/badge/NPM-Moment.js-purple.svg)
 
+## Credits
+Thank you all TA's especially Matthew Kaus for debugging the root of the problem in my codebase and helped me fixing it and made sure my api routes are up and running.Thank you for your help and patience !
 
 ## Questions
 Please reach out to me:<br>
