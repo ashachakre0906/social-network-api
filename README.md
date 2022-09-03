@@ -1,7 +1,7 @@
 ![License Badge](https://img.shields.io/badge/License-MIT-orange)  
 
 ## Description
-Your challenge is to build an API for a social network web application where users can share their thoughts, react to friends and create thoughts, add/remove a friend. we are using Express.js for routing, a MongoDB database, and the Mongoose ODM.Additionally,we are using JavaScript date library or the native JavaScript Date object to format timestamps.
+Your challenge is to build an API for a social network web application where users can share their thoughts, react to friends and create thoughts, add/remove a friend. we are using Express.js for routing, a MongoDB database, and the Mongoose ODM.Additionally, we are using JavaScript date library or the native JavaScript Date object to format timestamps. 
 
 ## [Solution URL](https://github.com/ashachakre0906/social-network-api)
 
@@ -45,35 +45,35 @@ This application demonstrates the database for a social networking application. 
  - Thought-Routes
    [Screencastify link](https://watch.screencastify.com/v/hgvwDpav1snzBknZDtFb)
 
-  - /api/users
+  `/api/users`
   * GET all users
   * POST a new user:
   
-  -  /api/users/:id
+  `/api/users/:id`
   * GET a single user by its _id and populated thought and friend data
   * PUT to update a user by its _id
   * DELETE to remove user by its _id
   
-  - /api/users/:userId/friends/:friendId
+  `/api/users/:userId/friends/:friendId`
   * POST to add a new friend to a user's friend list
   * DELETE to remove a friend from a user's friend list
 
-  - /api/thoughts
+  `/api/thoughts`
   * GET to get all thoughts
   * POST to create a new thought (don't forget to push the created thought's _id to the associated user's thoughts array field)
   
-  - /api/thoughts/:id
+  `/api/thoughts/:id`
   * GET to get a single thought by its _id
   * PUT to update a thought by its _id
   * DELETE to remove a thought by its _id
 
-- /api/thoughts/:thoughtId/reactions
+  `/api/thoughts/:thoughtId/reactions`
  * POST to create a reaction stored in a single thought's reactions array field
 - /api/thoughts/:thoughtId/reactions/:reactionId
  * DELETE to pull and remove a reaction by the reaction's reactionId value
 
 ## Code Examples
- - Below example shows how I have created my thoughts model where reactions will not be a model, but rather will be used as the reaction field's subdocument schema in the Thought model.we are using a getter method to format the timestamp on query through momemnt.js.
+ - Below example shows how I have created my thoughts model where reactions will not be a model, but rather will be used as the reaction field's subdocument schema in the Thought model.we are using a getter method to format the timestamp on query through moment.js.
 
 ```js
 const ThoughtsSchema = new Schema(
@@ -122,7 +122,7 @@ createThought(req, res) {
 ![Javascript Badge](https://img.shields.io/badge/language-Javascript-blue.svg)
 ![Express Badge](https://img.shields.io/badge/backend-Express-yellow.svg)
 ![Node Badge](https://img.shields.io/badge/backend-Node-orange.svg)
-![Mongoose Badge](https://img.shields.io/badge/database-Mongoose-magenta.svg)
+![Mongoose Badge](https://img.shields.io/badge/ODM-Mongoose-magenta.svg)
 ![MongoDB Badge](https://img.shields.io/badge/database-Mongo-green.svg)
 ![Moment Badge](https://img.shields.io/badge/NPM-Moment.js-purple.svg)
 
