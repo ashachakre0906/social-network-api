@@ -13,6 +13,7 @@ const {
 //get and post routes for thoughts
 router.route('/')
       .get(getAllThoughts)
+// router.route('/:user')
       .post(createThought);
 
 //get by id, put and delete routes for thoughts

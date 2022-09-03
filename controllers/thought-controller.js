@@ -12,16 +12,17 @@ const thoughtController = {
       });
   },
   //POST Create a thought
-  createThought({ params, body }, res) {
-    Thought.create(body)
+  //Refactor 
+  createThought(req, res) {
+    Thought.create(req.body)
       .then(({ _id }) => {
         return User.findOneAndUpdate(
-          { username: params.username },
-          { $addToSet: { thoughts: _id } },
+          { _id: req.body.id },
+          { $push: { thoughts: _id } },
           { new: true }
         );
       })
-      .then((thoughtsData) => {
+      .then(thoughtsData => {
         if (!thoughtsData) {
           res.status(404).json({ message: "Thought id is not valid" });
           return;
@@ -49,14 +50,12 @@ const thoughtController = {
   },
 
   //PUT update a thought
-  updateThought(req, res) {
+  updateThought({params, body}, res) {
     Thought.findOneAndUpdate(
-      { _id: req.params._id }, //which id it should be ?
-      { $push: req.body },
+      { _id: params.id }, //which id it should be ?thoughtid.When we update the thought just the version changes which is the -__v
+      body ,
       { new: true, runValidators: true }
     )
-      .populate({ path: "reactions", select: "-__v" })
-      .select("-__v")
       .then((thoughtsData) => {
         if (!thoughtsData) {
           res.status(404).json({ message: "Thought id is not valid" });

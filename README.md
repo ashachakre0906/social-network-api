@@ -1,7 +1,7 @@
 ![License Badge](https://img.shields.io/badge/License-MIT-orange)  
 
 ## Description
-Your challenge is to build an API for a social network web application where users can share their thoughts, react to friends’ create thoughts, and a friend list. we are using Express.js for routing, a MongoDB database, and the Mongoose ODM.Additionally,we are using JavaScript date library of your choice or the native JavaScript Date object to format timestamps.
+Your challenge is to build an API for a social network web application where users can share their thoughts, react to friends and create thoughts, add/remove a friend. we are using Express.js for routing, a MongoDB database, and the Mongoose ODM.Additionally,we are using JavaScript date library or the native JavaScript Date object to format timestamps.
 
 ## [Solution URL](https://github.com/ashachakre0906/social-network-api)
 
@@ -36,11 +36,21 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 
 
 ## Application Demo
-This application demonstrates the database for a social networking application. API routes are tested through Insomnia. Following demo's show various functionalities of the application.The walkthrough video shows the below API routes
+This application demonstrates the database for a social networking application. API routes are tested through Insomnia. Following demo's show various functionalities of the application.The walkthrough video shows the below API routes.
+
+
+
+- User-Routes
+ [Screencastify link](https://watch.screencastify.com/v/H1B24H16KkrkWs7sCFOW)
+ - Thought-Routes
+   [Screencastify link](https://watch.screencastify.com/v/hgvwDpav1snzBknZDtFb)
+
   - /api/users
   * GET all users
-  * GET a single user by its _id and populated thought and friend data
   * POST a new user:
+  
+  -  /api/users/:id
+  * GET a single user by its _id and populated thought and friend data
   * PUT to update a user by its _id
   * DELETE to remove user by its _id
   
@@ -50,17 +60,17 @@ This application demonstrates the database for a social networking application. 
 
   - /api/thoughts
   * GET to get all thoughts
-  * GET to get a single thought by its _id
   * POST to create a new thought (don't forget to push the created thought's _id to the associated user's thoughts array field)
+  
+  - /api/thoughts/:id
+  * GET to get a single thought by its _id
   * PUT to update a thought by its _id
   * DELETE to remove a thought by its _id
 
 - /api/thoughts/:thoughtId/reactions
  * POST to create a reaction stored in a single thought's reactions array field
+- /api/thoughts/:thoughtId/reactions/:reactionId
  * DELETE to pull and remove a reaction by the reaction's reactionId value
-  
- [Screencastify link]()
-
 
 ## Code Examples
  - Below example shows how I have created my thoughts model where reactions will not be a model, but rather will be used as the reaction field's subdocument schema in the Thought model.we are using a getter method to format the timestamp on query through momemnt.js.
@@ -85,6 +95,27 @@ const ThoughtsSchema = new Schema(
     },
     reactions: [ReactionsSchema],
 },
+```
+***POST route to create a new thought by method `findOneAndUpdate()`.`req.body` allows to access data in a string and push operator which is going to append the thought to the thoughts array***
+```js
+createThought(req, res) {
+    Thought.create(req.body)
+      .then(({ _id }) => {
+        return User.findOneAndUpdate(
+          { _id: req.body.id },
+          { $push: { thoughts: _id } },
+          { new: true }
+        );
+      })
+      .then(thoughtsData => {
+        if (!thoughtsData) {
+          res.status(404).json({ message: "Thought id is not valid" });
+          return;
+        }
+        res.json(thoughtsData);
+      })
+      .catch((err) => res.json(err));
+  },
 ```
 
 ## Technologies Used
